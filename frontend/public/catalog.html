@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>MaOBe Pedidos - Catálogo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo-area">
+      <div class="logo-circle" id="store-logo-circle">M</div>
+      <div>
+        <h1 class="brand" id="store-name">Cargando tienda...</h1>
+        <p class="subtitle" id="store-info">Pedidos por WhatsApp</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#productos">Productos</a>
+      <a href="#datos">Tus datos</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section id="productos" class="products-section">
+      <h3>Productos</h3>
+      <div class="products-grid" id="products"></div>
+      <p id="no-products" class="empty-msg" style="display:none;">
+        Esta tienda todavía no tiene productos cargados.
+      </p>
+    </section>
+
+    <section id="datos" class="how-section" style="margin-top:1.5rem;">
+      <h3>Tus datos para el pedido</h3>
+      <p style="font-size:.85rem;">
+        Completa estos datos para que el comercio pueda gestionar mejor tu pedido.
+      </p>
+      <div class="form-grid">
+        <div>
+          <label for="customer-name">Nombre</label>
+          <input id="customer-name" placeholder="Tu nombre">
+
+          <label for="customer-address" style="margin-top:.4rem;">Dirección / zona</label>
+          <input id="customer-address" placeholder="Ej: B° Centro, Calle 123...">
+
+          <label for="delivery-type" style="margin-top:.4rem;">Tipo de entrega</label>
+          <select id="delivery-type">
+            <option value="retiro">Retiro en el local</option>
+            <option value="envio">Envío a domicilio</option>
+          </select>
+
+          <label for="payment-method" style="margin-top:.4rem;">Forma de pago</label>
+          <select id="payment-method">
+            <option value="">Seleccionar...</option>
+            <option value="efectivo">Efectivo</option>
+            <option value="transferencia">Transferencia</option>
+            <option value="tarjeta">Tarjeta</option>
+          </select>
+        </div>
+        <div>
+          <label for="delivery-zone">Zona de delivery (si aplica)</label>
+          <select id="delivery-zone">
+            <option value="">Sin envío / a coordinar</option>
+          </select>
+          <small id="delivery-info" style="display:block;margin-top:.3rem;font-size:.75rem;color:var(--muted);"></small>
+
+          <label for="coupon-code" style="margin-top:.6rem;">Cupón de descuento</label>
+          <input id="coupon-code" placeholder="Ej: BIENVENIDA10">
+
+          <label for="customer-note" style="margin-top:.6rem;">Comentario para el comercio</label>
+          <textarea id="customer-note" placeholder="Ej: sin hielo, tocar timbre, etc."></textarea>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="cart-bar" id="cart">
+    <div>
+      <strong>Tu pedido</strong>
+      <p id="cart-summary">Carrito vacío</p>
+    </div>
+    <button id="whatsapp-btn" disabled>Enviar por WhatsApp</button>
+  </div>
+
+  <button class="floating-wa" id="floating-wa" style="display:none;">
+    💬
+  </button>
+
+  <footer class="footer">
+    <p>MaOBe Pedidos · Hecho con ❤️ en Argentina</p>
+    <p>&copy; MaOBe Digital 2025</p>
+  </footer>
+
+  <script src="./catalog.js"></script>
+</body>
+</html>

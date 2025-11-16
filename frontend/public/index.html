@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>MaOBe Pedidos - Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo-area">
+      <div class="logo-circle">M</div>
+      <div>
+        <h1 class="brand">MaOBe Pedidos</h1>
+        <p class="subtitle">Panel de control para comercios</p>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#admin">Panel</a>
+      <a href="#pedidos">Pedidos</a>
+      <a href="#stats">Estadísticas</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div class="hero-text">
+        <h2>Configura tu tienda y recibe pedidos por WhatsApp</h2>
+        <p>
+          Crea tu tienda, carga productos, define zonas de delivery y genera un catálogo para compartir con tus clientes.
+        </p>
+      </div>
+      <div class="hero-card">
+        <span class="badge">Paso 1</span>
+        <h3 style="margin-top:.4rem;">Crea tu tienda</h3>
+        <p style="margin:0 0 .7rem;font-size:.85rem;color:var(--muted);">
+          Completa los datos de tu negocio. Obtendrás un enlace único de catálogo para compartir.
+        </p>
+        <button class="btn btn-secondary" onclick="document.getElementById('admin').scrollIntoView({behavior:'smooth'})">
+          Ir al panel
+        </button>
+      </div>
+    </section>
+
+    <section id="admin">
+      <h2 class="section-title">Panel MaOBe Pedidos</h2>
+      <div class="form-grid">
+        <article class="card">
+          <h3>Tienda</h3>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:0;">
+            Configura tu tienda. Luego podrás cargar productos y zonas de envío.
+          </p>
+          <form id="store-form">
+            <label for="store-name">Nombre del negocio</label>
+            <input id="store-name" required placeholder="Ej: Kiosco MaOBe">
+
+            <label for="store-slug">Slug (URL corta, sin espacios)</label>
+            <input id="store-slug" required placeholder="ej: kiosco-maobe">
+
+            <label for="store-whatsapp">WhatsApp (solo números, con país)</label>
+            <input id="store-whatsapp" required placeholder="5493511234567">
+
+            <label for="store-logo">Logo (URL opcional)</label>
+            <input id="store-logo" placeholder="https://...">
+
+            <label for="store-color">Color principal (hex opcional)</label>
+            <input id="store-color" placeholder="#2563eb">
+
+            <div style="margin-top:.6rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;">
+              <button type="submit" class="btn btn-primary">Crear / actualizar tienda</button>
+              <span class="badge" id="store-status-badge">Sin tienda seleccionada</span>
+            </div>
+            <div id="store-status" class="status"></div>
+            <div id="store-link"></div>
+          </form>
+        </article>
+
+        <article class="card">
+          <h3>Productos</h3>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:0;">
+            Agrega productos a la tienda seleccionada. Puedes gestionar stock y categoría.
+          </p>
+          <form id="product-form">
+            <label for="product-name">Nombre</label>
+            <input id="product-name" required placeholder="Ej: Coca Cola 500ml">
+
+            <label for="product-desc">Descripción</label>
+            <textarea id="product-desc" placeholder="Opcional: bien fría, oferta 2x1..."></textarea>
+
+            <label for="product-price">Precio</label>
+            <input id="product-price" required type="number" step="0.01" min="0">
+
+            <label for="product-image">URL de imagen</label>
+            <input id="product-image" placeholder="https://...">
+
+            <label for="product-category">Categoría</label>
+            <input id="product-category" placeholder="Ej: Bebidas">
+
+            <label for="product-stock">Stock</label>
+            <input id="product-stock" type="number" min="0" value="0">
+
+            <label for="product-min-stock">Stock mínimo (alerta)</label>
+            <input id="product-min-stock" type="number" min="0" value="0">
+
+            <div style="margin-top:.6rem;">
+              <button type="submit" class="btn btn-primary">Agregar producto</button>
+              <div id="product-status" class="status"></div>
+            </div>
+          </form>
+        </article>
+      </div>
+
+      <article class="card" style="margin-top:1rem;">
+        <h3>Productos cargados</h3>
+        <p style="font-size:.8rem;color:var(--muted);margin-top:0;">
+          Lista de productos de la tienda. Se marcan en rojo los que están bajo el stock mínimo.
+        </p>
+        <div id="products-table-wrapper">
+          <p style="font-size:.8rem;color:var(--muted);">Todavía no hay productos para esta tienda.</p>
+        </div>
+      </article>
+
+      <div class="form-grid" style="margin-top:1rem;">
+        <article class="card">
+          <h3>Zonas de delivery</h3>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:0;">
+            Define zonas de envío con costo y monto mínimo para envío gratis.
+          </p>
+          <form id="zone-form">
+            <label for="zone-name">Nombre de la zona</label>
+            <input id="zone-name" placeholder="Ej: Centro, Zona Norte">
+
+            <label for="zone-price">Costo de envío</label>
+            <input id="zone-price" type="number" step="0.01" min="0">
+
+            <label for="zone-min-total">Gratis desde (opcional)</label>
+            <input id="zone-min-total" type="number" step="0.01" min="0">
+
+            <div style="margin-top:.6rem;">
+              <button type="submit" class="btn btn-primary">Agregar zona</button>
+              <div id="zone-status" class="status"></div>
+            </div>
+          </form>
+
+          <div id="zones-list" style="margin-top:.5rem;font-size:.8rem;color:var(--muted);">
+            No hay zonas configuradas.
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Cupones de descuento</h3>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:0;">
+            Crea cupones de porcentaje de descuento para incentivar compras.
+          </p>
+          <form id="coupon-form">
+            <label for="coupon-code">Código</label>
+            <input id="coupon-code" placeholder="Ej: BIENVENIDA10">
+
+            <label for="coupon-percent">% de descuento</label>
+            <input id="coupon-percent" type="number" step="1" min="1" max="90" value="10">
+
+            <label for="coupon-min-total">Mínimo de compra (opcional)</label>
+            <input id="coupon-min-total" type="number" step="0.01" min="0">
+
+            <div style="margin-top:.6rem;">
+              <button type="submit" class="btn btn-primary">Agregar cupón</button>
+              <div id="coupon-status" class="status"></div>
+            </div>
+          </form>
+
+          <div id="coupons-list" style="margin-top:.5rem;font-size:.8rem;color:var(--muted);">
+            No hay cupones configurados.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="pedidos" style="margin-top:1.5rem;">
+      <article class="card">
+        <h3>Pedidos recientes</h3>
+        <p style="font-size:.8rem;color:var(--muted);margin-top:0;">
+          Aquí verás los pedidos que llegan desde tu catálogo. Cambia su estado a medida que los procesas.
+        </p>
+        <div id="orders-table-wrapper">
+          <p style="font-size:.8rem;color:var(--muted);">No hay pedidos para esta tienda.</p>
+        </div>
+      </article>
+    </section>
+
+    <section id="stats" style="margin-top:1.5rem;">
+      <article class="card">
+        <h3>Estadísticas rápidas</h3>
+        <p style="font-size:.8rem;color:var(--muted);margin-top:0;">
+          Resumen de ventas de hoy y de los últimos 7 días.
+        </p>
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Pedidos hoy</div>
+            <div class="stat-value" id="stat-today-orders">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total hoy</div>
+            <div class="stat-value" id="stat-today-total">$0.00</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Pedidos últimos 7 días</div>
+            <div class="stat-value" id="stat-last7-orders">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Total últimos 7 días</div>
+            <div class="stat-value" id="stat-last7-total">$0.00</div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>MaOBe Pedidos · Hecho con ❤️ en Argentina</p>
+    <p>&copy; MaOBe Digital 2025</p>
+  </footer>
+
+  <script src="./panel.js"></script>
+</body>
+</html>
