@@ -1,5 +1,5 @@
 
-const API_BASE = "http://localhost:8000";
+const API_BASE = "https://maobe-pedidos.onrender.com";
 
 const urlParams = new URLSearchParams(window.location.search);
 const slug = urlParams.get("tienda") || "demo";
